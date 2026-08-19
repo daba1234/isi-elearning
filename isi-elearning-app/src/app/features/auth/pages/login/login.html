@@ -1,0 +1,79 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="login-title">Connexion ISI E-Learning</h1>
+    
+    <!-- Formulaire de connexion -->
+    <form [formGroup]="form" (ngSubmit)="onLogin()" class="login-form">
+      
+      <!-- Champ Email -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input 
+          id="email"
+          type="email" 
+          formControlName="email"
+          class="form-input"
+          [class.form-input-error]="form.get('email')?.invalid && form.get('email')?.touched"
+          placeholder="votre@email.com"
+        />
+        <span *ngIf="form.get('email')?.invalid && form.get('email')?.touched" 
+              class="error-message">
+          {{ emailError }}
+        </span>
+      </div>
+
+      <!-- Champ Mot de passe -->
+      <div class="form-group">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input 
+          id="password"
+          type="password" 
+          formControlName="password"
+          class="form-input"
+          [class.form-input-error]="form.get('password')?.invalid && form.get('password')?.touched"
+          placeholder="••••••••"
+        />
+        <span *ngIf="form.get('password')?.invalid && form.get('password')?.touched" 
+              class="error-message">
+          {{ passwordError }}
+        </span>
+      </div>
+
+      <!-- Bouton Connexion -->
+      <button 
+        type="submit" 
+        [disabled]="form.invalid || loading()"
+        class="submit-button"
+      >
+        <span *ngIf="!loading()">Se connecter</span>
+        <span *ngIf="loading()">Connexion en cours...</span>
+      </button>
+    </form>
+
+    <!-- Messages d'erreur -->
+    <div *ngIf="error()" class="error-alert">
+      {{ error() }}
+    </div>
+
+    <!-- Lien vers inscription -->
+    <p class="signup-link">
+      Pas encore inscrit? 
+      <a routerLink="/register" class="link">S'inscrire</a>
+    </p>
+
+    <!-- Données de démo -->
+    <div class="demo-section">
+      <h3 class="demo-title">Identifiants de test:</h3>
+      <div class="demo-card">
+        <p><strong>Enseignant:</strong></p>
+        <p>Email: prof@isi.sn</p>
+        <p>Mot de passe: password</p>
+      </div>
+      <div class="demo-card">
+        <p><strong>Étudiant:</strong></p>
+        <p>Email: etudiant@isi.sn</p>
+        <p>Mot de passe: password</p>
+      </div>
+    </div>
+  </div>
+</div>
