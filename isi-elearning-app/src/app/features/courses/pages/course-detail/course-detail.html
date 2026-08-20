@@ -62,7 +62,7 @@
       <ul *ngIf="quizzes().length > 0; else noQuizzes" class="lesson-list">
         <li *ngFor="let quiz of quizzes()" class="lesson-item">
           <span class="lesson-title">{{ quiz.titre }}</span>
-          <span class="lesson-duree">{{ quiz.questions }} questions · {{ quiz.duree }} min</span>
+          <span class="lesson-duree">{{ quiz.questions.length }} questions · {{ quiz.duree }} min</span>
         </li>
       </ul>
       <ng-template #noQuizzes><p class="empty-hint">Aucun quiz publié.</p></ng-template>

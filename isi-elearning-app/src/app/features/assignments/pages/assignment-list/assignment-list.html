@@ -1,0 +1,84 @@
+<div class="assignment-list">
+  <div class="list-header">
+    <h2 class="list-title">Gestion des devoirs</h2>
+    <button class="btn-new" (click)="toggleForm()">
+      {{ showForm() ? 'Fermer' : '+ Ajouter un devoir' }}
+    </button>
+  </div>
+
+  <app-assignment-form
+    *ngIf="showForm()"
+    [courses]="courses()"
+    (created)="onCreated()"
+    (cancelled)="toggleForm()"
+  ></app-assignment-form>
+
+  <div *ngIf="loading()" class="loading-state">Chargement des devoirs...</div>
+  <div *ngIf="error()" class="error-alert">{{ error() }}</div>
+
+  <table *ngIf="!loading() && rows().length > 0" class="assignment-table">
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Cours</th>
+        <th>Date limite</th>
+        <th>Rendus / Effectif</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let row of rows()">
+        <tr>
+          <td>{{ row.assignment.titre }}</td>
+          <td>{{ row.courseTitre }}</td>
+          <td>{{ row.assignment.dateLimite }}</td>
+          <td>{{ row.rendus }} / {{ row.effectif }}</td>
+          <td>{{ row.assignment.status }}</td>
+          <td class="actions">
+            <button class="btn-link" (click)="toggleDetails(row.assignment.id)">
+              {{ expandedAssignmentId() === row.assignment.id ? 'Fermer' : 'Voir / Corriger' }}
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="expandedAssignmentId() === row.assignment.id" class="details-row">
+          <td colspan="6">
+            <div class="details-panel">
+              <p class="details-consigne"><strong>Consigne :</strong> {{ row.assignment.consigne }}</p>
+              <a *ngIf="row.assignment.fichierUrl" [href]="row.assignment.fichierUrl" [download]="row.assignment.fichierNom" class="content-link">
+                📎 {{ row.assignment.fichierNom }}
+              </a>
+
+              <p *ngIf="submissions().length === 0" class="empty-hint">Aucun rendu pour le moment.</p>
+
+              <table *ngIf="submissions().length > 0" class="submissions-table">
+                <thead>
+                  <tr>
+                    <th>Étudiant</th>
+                    <th>Fichier rendu</th>
+                    <th>Date de rendu</th>
+                    <th>Note</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sub of submissions()">
+                    <td>{{ sub.user.prenom }} {{ sub.user.nom }}</td>
+                    <td>{{ sub.fileName }}</td>
+                    <td>{{ sub.submittedAt }}</td>
+                    <td>
+                      <input type="number" min="0" max="20" class="grade-input"
+                        [value]="sub.grade ?? ''"
+                        (change)="grade(sub.id, $any($event.target).value)" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading() && rows().length === 0" class="empty-hint">Aucun devoir créé pour le moment.</p>
+</div>

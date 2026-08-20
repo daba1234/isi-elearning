@@ -32,7 +32,7 @@ export class LoginComponent {
     
     const { email, password } = this.form.value;
     this.authService.login(email ?? '', password ?? '').then((user) => {
-      this.router.navigate([user.role === 'enseignant' ? '/courses' : '/dashboard']);
+      this.router.navigate([user.role === 'enseignant' ? '/teacher/dashboard' : '/dashboard']);
     }).catch(() => {
       this.error.set('Email ou mot de passe incorrect');
       this.loading.set(false);

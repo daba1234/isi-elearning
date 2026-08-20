@@ -75,14 +75,14 @@ export class CourseDetailComponent implements OnInit {
         },
         error: () => this.loading.set(false)
       });
-    } else {Students(courseId);
+    } else {
+      this.loadStudents(courseId);
       this.loading.set(false);
     }
   }
 
   private loadStudents(courseId: string): void {
-    this.courseService.getEnrolledStudents(courseId).subscribe({ next: (data) => this.students.set(data) }); this.loading.set(false);
-    }
+    this.courseService.getEnrolledStudents(courseId).subscribe({ next: (data) => this.students.set(data) });
   }
 
   enroll(): void {

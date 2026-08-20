@@ -1,0 +1,76 @@
+<form class="quiz-form" [formGroup]="form" (ngSubmit)="submit()">
+  <h2 class="form-title">Ajouter un quiz</h2>
+
+  <div class="form-group">
+    <label for="q-titre" class="form-label">Titre du quiz *</label>
+    <input id="q-titre" type="text" formControlName="titre" class="form-input"
+      [class.form-input-error]="form.get('titre')?.invalid && form.get('titre')?.touched"
+      placeholder="Ex: Quiz Chapitre 1" />
+    <span *ngIf="form.get('titre')?.invalid && form.get('titre')?.touched" class="error-message">
+      Le titre est obligatoire
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="q-course" class="form-label">Cours associé *</label>
+    <select id="q-course" formControlName="courseId" class="form-input"
+      [class.form-input-error]="form.get('courseId')?.invalid && form.get('courseId')?.touched">
+      <option value="" disabled>Sélectionner un cours</option>
+      <option *ngFor="let course of courses" [value]="course.id">{{ course.titre }}</option>
+    </select>
+    <span *ngIf="form.get('courseId')?.invalid && form.get('courseId')?.touched" class="error-message">
+      Le cours associé est obligatoire
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="q-duree" class="form-label">Durée (minutes) *</label>
+    <input id="q-duree" type="number" min="1" formControlName="duree" class="form-input"
+      [class.form-input-error]="form.get('duree')?.invalid && form.get('duree')?.touched" />
+    <span *ngIf="form.get('duree')?.invalid && form.get('duree')?.touched" class="error-message">
+      La durée est obligatoire
+    </span>
+  </div>
+
+  <div class="questions-section" formArrayName="questions">
+    <h3 class="subsection-title">Questions à choix multiples</h3>
+
+    <div *ngFor="let question of questions.controls; let qi = index" [formGroupName]="qi" class="question-card">
+      <div class="question-header">
+        <span class="question-index">Question {{ qi + 1 }}</span>
+        <button type="button" class="btn-remove" (click)="removeQuestion(qi)" [disabled]="questions.length === 1">
+          Supprimer
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Énoncé *</label>
+        <input type="text" formControlName="enonce" class="form-input" placeholder="Ex: Quel est..." />
+      </div>
+
+      <div class="options-section" formArrayName="options">
+        <label class="form-label">Options (cochez la bonne réponse)</label>
+        <div *ngFor="let option of optionsOf(qi).controls; let oi = index" class="option-row">
+          <input type="radio" [name]="'correct-' + qi" [value]="oi" formControlName="bonneReponseIndex"
+            (change)="question.get('bonneReponseIndex')?.setValue(oi)" [checked]="question.value.bonneReponseIndex === oi" />
+          <input type="text" [formControlName]="oi" class="form-input" [placeholder]="'Option ' + (oi + 1)" />
+          <button type="button" class="btn-remove-option" (click)="removeOption(qi, oi)" [disabled]="optionsOf(qi).length === 2">
+            ✕
+          </button>
+        </div>
+        <button type="button" class="btn-add-option" (click)="addOption(qi)">+ Ajouter une option</button>
+      </div>
+    </div>
+
+    <button type="button" class="btn-add-question" (click)="addQuestion()">+ Ajouter une question</button>
+  </div>
+
+  <div *ngIf="error()" class="error-alert">{{ error() }}</div>
+
+  <div class="form-actions">
+    <button type="button" class="btn-cancel" (click)="cancel()">Annuler</button>
+    <button type="submit" class="submit-button" [disabled]="loading()">
+      {{ loading() ? 'Création...' : 'Créer le quiz' }}
+    </button>
+  </div>
+</form>

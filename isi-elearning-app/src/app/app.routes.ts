@@ -7,12 +7,14 @@ import { CourseDetailComponent } from './features/courses/pages/course-detail/co
 import { LoginComponent } from './features/auth/pages/login/login';
 import { RegisterComponent } from './features/auth/pages/register/register';
 import { DashboardComponent } from './features/dashboard/pages/dashboard/dashboard';
+import { TeacherDashboardComponent } from './features/dashboard/pages/teacher-dashboard/teacher-dashboard';
 
 export const routes: Routes = [
 	{ path: '', pathMatch: 'full', redirectTo: 'dashboard' },
 	{ path: 'login', component: LoginComponent },
 	{ path: 'register', component: RegisterComponent },
 	{ path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
+	{ path: 'teacher/dashboard', component: TeacherDashboardComponent, canActivate: [authGuard, roleGuard('enseignant')] },
 	{ path: 'courses/create', component: CourseFormComponent, canActivate: [authGuard, roleGuard('enseignant')] },
 	{ path: 'courses/:id', component: CourseDetailComponent, canActivate: [authGuard] },
 	{ path: 'courses', component: CourseListComponent, canActivate: [authGuard] },

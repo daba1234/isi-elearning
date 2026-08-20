@@ -145,7 +145,28 @@
       "id": "q1",
       "courseId": "c1",
       "titre": "Evaluation Angular",
-      "questions": 10,
+      "questions": [
+        {
+          "id": "q1-1",
+          "enonce": "Qu'est-ce qu'un composant standalone ?",
+          "options": [
+            "Un composant sans NgModule",
+            "Un composant sans template",
+            "Un composant sans style"
+          ],
+          "bonneReponseIndex": 0
+        },
+        {
+          "id": "q1-2",
+          "enonce": "Quel decorateur declare un composant Angular ?",
+          "options": [
+            "@Injectable",
+            "@Component",
+            "@Directive"
+          ],
+          "bonneReponseIndex": 1
+        }
+      ],
       "duree": 20,
       "published": true
     },
@@ -153,9 +174,38 @@
       "id": "q2",
       "courseId": "c2",
       "titre": "SQL - fondamentaux",
-      "questions": 8,
+      "questions": [
+        {
+          "id": "q2-1",
+          "enonce": "Quelle instruction permet de recuperer des donnees ?",
+          "options": [
+            "SELECT",
+            "INSERT",
+            "DELETE"
+          ],
+          "bonneReponseIndex": 0
+        }
+      ],
       "duree": 15,
       "published": true
+    },
+    {
+      "titre": " requête sql",
+      "courseId": "c2",
+      "duree": 1,
+      "questions": [
+        {
+          "id": "q-1787196580271-0",
+          "enonce": "quelle requête permet de lister une table",
+          "options": [
+            "select *from table",
+            "create table"
+          ],
+          "bonneReponseIndex": 0
+        }
+      ],
+      "published": true,
+      "id": "hVrSY6r"
     }
   ],
   "assignments": [
@@ -163,9 +213,21 @@
       "id": "a1",
       "courseId": "c1",
       "titre": "Mini projet Angular",
-      "description": "Realisez une page de tableau de bord responsive.",
+      "consigne": "Realisez une page de tableau de bord responsive.",
       "dateLimite": "2026-09-15",
       "status": "a faire"
+    },
+    {
+      "titre": "premierSemestre",
+      "courseId": "c2",
+      "consigne": "faite la configuration en suivant le fichier partager",
+      "dateLimite": "2026-08-21",
+      "status": "En cours",
+      "fichierNom": "Configuration_Topologie_Reseau_Complet.docx",
+      "fichierUrl": "blob:http://localhost:62722/e1b6027d-5db7-43a5-953e-4880bbfa65b7",
+      "id": "l4DcfW8"
     }
-  ]
+  ],
+  "assignmentSubmissions": [],
+  "quizSubmissions": []
 }

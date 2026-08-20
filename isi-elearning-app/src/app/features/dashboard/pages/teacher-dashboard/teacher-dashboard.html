@@ -1,0 +1,21 @@
+<div class="teacher-dashboard">
+  <h1 class="dashboard-title">Tableau de bord Professeur</h1>
+
+  <div class="tabs">
+    <button class="tab" [class.active]="activeTab() === 'cours'" (click)="selectTab('cours')">
+      Mes Cours
+    </button>
+    <button class="tab" [class.active]="activeTab() === 'devoirs'" (click)="selectTab('devoirs')">
+      Gestion des Devoirs
+    </button>
+    <button class="tab" [class.active]="activeTab() === 'quiz'" (click)="selectTab('quiz')">
+      Gestion des Quiz
+    </button>
+  </div>
+
+  <div class="tab-content">
+    <app-course-list *ngIf="activeTab() === 'cours'"></app-course-list>
+    <app-assignment-list *ngIf="activeTab() === 'devoirs'"></app-assignment-list>
+    <app-quiz-list *ngIf="activeTab() === 'quiz'"></app-quiz-list>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<form class="assignment-form" [formGroup]="form" (ngSubmit)="submit()">
+  <h2 class="form-title">Ajouter un devoir</h2>
+
+  <div class="form-group">
+    <label for="a-titre" class="form-label">Titre du devoir *</label>
+    <input id="a-titre" type="text" formControlName="titre" class="form-input"
+      [class.form-input-error]="form.get('titre')?.invalid && form.get('titre')?.touched"
+      placeholder="Ex: Mini projet Angular" />
+    <span *ngIf="form.get('titre')?.invalid && form.get('titre')?.touched" class="error-message">
+      Le titre est obligatoire
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="a-course" class="form-label">Cours associé *</label>
+    <select id="a-course" formControlName="courseId" class="form-input"
+      [class.form-input-error]="form.get('courseId')?.invalid && form.get('courseId')?.touched">
+      <option value="" disabled>Sélectionner un cours</option>
+      <option *ngFor="let course of courses" [value]="course.id">{{ course.titre }}</option>
+    </select>
+    <span *ngIf="form.get('courseId')?.invalid && form.get('courseId')?.touched" class="error-message">
+      Le cours associé est obligatoire
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="a-consigne" class="form-label">Consigne *</label>
+    <textarea id="a-consigne" formControlName="consigne" class="form-textarea" rows="4"
+      placeholder="Décrivez le travail attendu"></textarea>
+    <span *ngIf="form.get('consigne')?.invalid && form.get('consigne')?.touched" class="error-message">
+      La consigne est obligatoire
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="a-fichier" class="form-label">Fichier joint</label>
+    <input id="a-fichier" type="file" (change)="onFileSelected($event)" class="form-file" />
+    <span *ngIf="file()" class="file-hint">Fichier sélectionné : {{ file()?.name }}</span>
+  </div>
+
+  <div class="form-group">
+    <label for="a-date" class="form-label">Date limite de rendu *</label>
+    <input id="a-date" type="date" formControlName="dateLimite" class="form-input"
+      [class.form-input-error]="form.get('dateLimite')?.invalid && form.get('dateLimite')?.touched" />
+    <span *ngIf="form.get('dateLimite')?.invalid && form.get('dateLimite')?.touched" class="error-message">
+      La date limite est obligatoire
+    </span>
+  </div>
+
+  <div *ngIf="error()" class="error-alert">{{ error() }}</div>
+
+  <div class="form-actions">
+    <button type="button" class="btn-cancel" (click)="cancel()">Annuler</button>
+    <button type="submit" class="submit-button" [disabled]="loading()">
+      {{ loading() ? 'Création...' : 'Créer le devoir' }}
+    </button>
+  </div>
+</form>

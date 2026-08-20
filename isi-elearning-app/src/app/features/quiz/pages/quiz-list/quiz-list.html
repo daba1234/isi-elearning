@@ -1,0 +1,61 @@
+<div class="quiz-list">
+  <div class="list-header">
+    <h2 class="list-title">Gestion des quiz</h2>
+    <button class="btn-new" (click)="toggleForm()">
+      {{ showForm() ? 'Fermer' : '+ Ajouter un quiz' }}
+    </button>
+  </div>
+
+  <app-quiz-form
+    *ngIf="showForm()"
+    [courses]="courses()"
+    (created)="onCreated()"
+    (cancelled)="toggleForm()"
+  ></app-quiz-form>
+
+  <div *ngIf="loading()" class="loading-state">Chargement des quiz...</div>
+  <div *ngIf="error()" class="error-alert">{{ error() }}</div>
+
+  <table *ngIf="!loading() && rows().length > 0" class="quiz-table">
+    <thead>
+      <tr>
+        <th>Titre</th>
+        <th>Cours</th>
+        <th>Nb Questions</th>
+        <th>Durée</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let row of rows()">
+        <tr>
+          <td>{{ row.quiz.titre }}</td>
+          <td>{{ row.courseTitre }}</td>
+          <td>{{ row.quiz.questions.length }}</td>
+          <td>{{ row.quiz.duree }} min</td>
+          <td class="actions">
+            <button class="btn-link" (click)="toggleStats(row.quiz.id)">
+              {{ expandedQuizId() === row.quiz.id ? 'Fermer' : 'Voir / Statistiques' }}
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="expandedQuizId() === row.quiz.id" class="details-row">
+          <td colspan="5">
+            <div class="details-panel">
+              <ul class="question-preview">
+                <li *ngFor="let question of row.quiz.questions">{{ question.enonce }}</li>
+              </ul>
+
+              <p class="stats-summary">
+                {{ attempts().length }} tentative(s) · Score moyen : {{ averageScore() }}%
+              </p>
+              <p *ngIf="attempts().length === 0" class="empty-hint">Aucune tentative pour le moment.</p>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading() && rows().length === 0" class="empty-hint">Aucun quiz créé pour le moment.</p>
+</div>

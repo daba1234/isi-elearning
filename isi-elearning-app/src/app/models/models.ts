@@ -51,11 +51,18 @@ export interface EnrolledStudent extends Enrollment {
   user: User;
 }
 
+export interface QuizQuestion {
+  id: string;
+  enonce: string;
+  options: string[];
+  bonneReponseIndex: number;
+}
+
 export interface Quiz {
   id: string;
   courseId: string;
   titre: string;
-  questions: number;
+  questions: QuizQuestion[];
   duree: number;
   published: boolean;
 }
@@ -64,9 +71,11 @@ export interface Assignment {
   id: string;
   courseId: string;
   titre: string;
-  description: string;
+  consigne: string;
   dateLimite: string;
   status: string;
+  fichierNom?: string;
+  fichierUrl?: string;
 }
 
 export interface QuizSubmission {
