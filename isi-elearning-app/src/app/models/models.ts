@@ -20,6 +20,11 @@ export interface Course {
   enseignantId: string;
   image: string;
   published: boolean;
+  dateAjout: string;
+  documentNom?: string;
+  documentUrl?: string;
+  videoNom?: string;
+  videoUrl?: string;
 }
 
 export interface Lesson {

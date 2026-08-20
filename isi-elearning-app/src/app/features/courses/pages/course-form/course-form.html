@@ -1,0 +1,91 @@
+<div class="course-form-container">
+  <div class="course-form-card">
+    <h1 class="form-title">Nouveau cours</h1>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="course-form">
+
+      <!-- Nom du cours -->
+      <div class="form-group">
+        <label for="titre" class="form-label">Nom du cours *</label>
+        <input
+          id="titre"
+          type="text"
+          formControlName="titre"
+          class="form-input"
+          [class.form-input-error]="form.get('titre')?.invalid && form.get('titre')?.touched"
+          placeholder="Ex: Angular moderne"
+        />
+        <span *ngIf="form.get('titre')?.invalid && form.get('titre')?.touched" class="error-message">
+          Le nom du cours est obligatoire
+        </span>
+      </div>
+
+      <!-- Durée du cours -->
+      <div class="form-group">
+        <label for="duree" class="form-label">Durée du cours *</label>
+        <input
+          id="duree"
+          type="text"
+          formControlName="duree"
+          class="form-input"
+          [class.form-input-error]="form.get('duree')?.invalid && form.get('duree')?.touched"
+          placeholder="Ex: 6 semaines"
+        />
+        <span *ngIf="form.get('duree')?.invalid && form.get('duree')?.touched" class="error-message">
+          La durée du cours est obligatoire
+        </span>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label for="description" class="form-label">Description du cours</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          class="form-textarea"
+          rows="4"
+          placeholder="Décrivez le contenu du cours"
+        ></textarea>
+      </div>
+
+      <!-- Document PDF -->
+      <div class="form-group">
+        <label for="document" class="form-label">Contenu du cours - Document (PDF)</label>
+        <input id="document" type="file" accept="application/pdf" (change)="onDocumentSelected($event)" class="form-file" />
+        <span *ngIf="documentFile()" class="file-hint">Fichier sélectionné : {{ documentFile()?.name }}</span>
+      </div>
+
+      <!-- Vidéo -->
+      <div class="form-group">
+        <label for="video" class="form-label">Contenu du cours - Vidéo (MP4, MOV)</label>
+        <input id="video" type="file" accept="video/mp4,video/quicktime" (change)="onVideoSelected($event)" class="form-file" />
+        <span *ngIf="videoFile()" class="file-hint">Fichier sélectionné : {{ videoFile()?.name }}</span>
+
+        <div *ngIf="videoFile()" class="progress-bar">
+          <div class="progress-fill" [style.width.%]="videoUploadProgress()"></div>
+        </div>
+        <span *ngIf="uploadingVideo()" class="file-hint">Upload en cours... {{ videoUploadProgress() }}%</span>
+        <span *ngIf="videoFile() && !uploadingVideo()" class="file-hint success">Vidéo prête ({{ videoUploadProgress() }}%)</span>
+      </div>
+
+      <!-- Date d'ajout (lecture seule) -->
+      <div class="form-group">
+        <label class="form-label">Date d'ajout</label>
+        <input type="text" [value]="today" class="form-input" disabled />
+      </div>
+
+      <!-- Message d'erreur -->
+      <div *ngIf="error()" class="error-alert">
+        {{ error() }}
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" routerLink="/courses">Annuler</button>
+        <button type="submit" [disabled]="loading() || uploadingVideo()" class="submit-button">
+          <span *ngIf="!loading()">Créer le cours</span>
+          <span *ngIf="loading()">Création en cours...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

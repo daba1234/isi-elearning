@@ -70,6 +70,22 @@
       "enseignantId": "u1",
       "image": "project",
       "published": true
+    },
+    {
+      "titre": "vlan",
+      "description": "dfuiiikj",
+      "categorie": "Général",
+      "niveau": "Debutant",
+      "duree": "2",
+      "enseignantId": "eq1IwSe",
+      "image": "course",
+      "published": false,
+      "dateAjout": "2026-08-20",
+      "documentNom": "QCM_Introduction_CSS_correction.pdf",
+      "documentUrl": "blob:http://localhost:4200/7c092339-d37c-4260-bb94-10ac8c588caa",
+      "videoNom": "1.mp4",
+      "videoUrl": "blob:http://localhost:4200/d3d4871f-4274-45a5-9c9e-581971da9852",
+      "id": "00Ph_BT"
     }
   ],
   "lessons": [
