@@ -1,0 +1,148 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "nom": "Diallo",
+      "prenom": "Aminata",
+      "email": "prof@isi.sn",
+      "password": "password",
+      "role": "enseignant",
+      "avatar": "AD"
+    },
+    {
+      "id": "u2",
+      "nom": "Ndiaye",
+      "prenom": "Moussa",
+      "email": "etudiant@isi.sn",
+      "password": "password",
+      "role": "etudiant",
+      "avatar": "MN"
+    },
+    {
+      "prenom": "daba",
+      "nom": "karé",
+      "email": "dabakare05@gmail.com",
+      "password": "P@sser123",
+      "role": "etudiant",
+      "avatar": "DK",
+      "id": "eq1IwSe"
+    },
+    {
+      "prenom": "isseu",
+      "nom": "dieye",
+      "email": "isse@gmail.com",
+      "password": "P@sser123",
+      "role": "etudiant",
+      "avatar": "ID",
+      "id": "wC_UdUG"
+    }
+  ],
+  "courses": [
+    {
+      "id": "c1",
+      "titre": "Angular moderne",
+      "description": "Construisez des applications web robustes avec Angular standalone.",
+      "categorie": "Developpement web",
+      "niveau": "Intermediaire",
+      "duree": "8 semaines",
+      "enseignantId": "u1",
+      "image": "angular",
+      "published": true
+    },
+    {
+      "id": "c2",
+      "titre": "Bases de donnees",
+      "description": "Concevez, interrogez et securisez une base de donnees relationnelle.",
+      "categorie": "Informatique",
+      "niveau": "Debutant",
+      "duree": "6 semaines",
+      "enseignantId": "u1",
+      "image": "database",
+      "published": true
+    },
+    {
+      "id": "c3",
+      "titre": "Gestion de projet",
+      "description": "Maitrisez les outils et methodes pour piloter vos projets.",
+      "categorie": "Management",
+      "niveau": "Debutant",
+      "duree": "4 semaines",
+      "enseignantId": "u1",
+      "image": "project",
+      "published": true
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l1",
+      "courseId": "c1",
+      "titre": "Bienvenue dans Angular",
+      "description": "Decouvrez l'architecture d'une application Angular.",
+      "contenu": "Angular permet de construire des interfaces composees de composants reutilisables.",
+      "ordre": 1,
+      "duree": 35
+    },
+    {
+      "id": "l2",
+      "courseId": "c1",
+      "titre": "Composants standalone",
+      "description": "Organisez votre code avec les composants standalone.",
+      "contenu": "Un composant standalone declare directement ses imports et peut etre route sans NgModule.",
+      "ordre": 2,
+      "duree": 45
+    },
+    {
+      "id": "l3",
+      "courseId": "c1",
+      "titre": "Services et API",
+      "description": "Connectez Angular a une API REST.",
+      "contenu": "Les services centralisent la communication HTTP et la logique metier.",
+      "ordre": 3,
+      "duree": 40
+    }
+  ],
+  "enrollments": [
+    {
+      "id": "e1",
+      "userId": "u2",
+      "courseId": "c1",
+      "progress": 66,
+      "status": "en cours"
+    },
+    {
+      "id": "e2",
+      "userId": "u2",
+      "courseId": "c2",
+      "progress": 100,
+      "status": "termine"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "q1",
+      "courseId": "c1",
+      "titre": "Evaluation Angular",
+      "questions": 10,
+      "duree": 20,
+      "published": true
+    },
+    {
+      "id": "q2",
+      "courseId": "c2",
+      "titre": "SQL - fondamentaux",
+      "questions": 8,
+      "duree": 15,
+      "published": true
+    }
+  ],
+  "assignments": [
+    {
+      "id": "a1",
+      "courseId": "c1",
+      "titre": "Mini projet Angular",
+      "description": "Realisez une page de tableau de bord responsive.",
+      "dateLimite": "2026-09-15",
+      "status": "a faire"
+    }
+  ]
+}

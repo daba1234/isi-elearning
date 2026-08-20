@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-//import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ import { Router, RouterModule } from '@angular/router';
   styleUrls: ['./login.css']
 })
 export class LoginComponent {
-  //private authService = inject(AuthService);
+  private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
 
@@ -31,28 +31,12 @@ export class LoginComponent {
     this.error.set(null);
     
     const { email, password } = this.form.value;
-
-    //this.authService.login(email!, password!).subscribe({
-    //   next: (response) => {
-    //     localStorage.setItem('accessToken', response.accessToken);
-    //     localStorage.setItem('user', JSON.stringify(response.user));
-    //     this.authService.currentUser.set(response.user);
-    //     this.authService.isAuthenticated.set(true);
-        
-    //     // Redirection selon le rôle
-    //     if (response.user.role === 'enseignant') {
-    //       this.router.navigate(['/courses']);
-    //     } else if (response.user.role === 'etudiant') {
-    //       this.router.navigate(['/dashboard']);
-    //     } else {
-    //       this.router.navigate(['/']);
-    //     }
-    //   },
-    //   error: (err) => {
-    //     this.error.set('Email ou mot de passe incorrect');
-    //     this.loading.set(false);
-    //   }
-    // });
+    this.authService.login(email ?? '', password ?? '').then((user) => {
+      this.router.navigate([user.role === 'enseignant' ? '/courses' : '/dashboard']);
+    }).catch(() => {
+      this.error.set('Email ou mot de passe incorrect');
+      this.loading.set(false);
+    });
   }
 
   get emailError(): string {
