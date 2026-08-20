@@ -28,6 +28,10 @@
       <p class="course-description">{{ course.description }}</p>
       
       <div class="course-footer">
+        <button *ngIf="auth.currentUser()?.role === 'enseignant'" class="btn-publish" [class.published]="course.published"
+          (click)="togglePublish(course, $event)">
+          {{ course.published ? 'Publié' : 'Brouillon' }}
+        </button>
         <button class="btn-view" [routerLink]="['/courses', course.id]">
           Voir les détails →
         </button>

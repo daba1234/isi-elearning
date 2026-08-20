@@ -54,8 +54,11 @@ export interface EnrolledStudent extends Enrollment {
 export interface QuizQuestion {
   id: string;
   enonce: string;
+  type?: 'unique' | 'multiple' | 'vrai_faux';
   options: string[];
-  bonneReponseIndex: number;
+  bonneReponseIndex?: number;
+  bonnesReponses?: number[];
+  points?: number;
 }
 
 export interface Quiz {
@@ -74,6 +77,7 @@ export interface Assignment {
   consigne: string;
   dateLimite: string;
   status: string;
+  published?: boolean;
   fichierNom?: string;
   fichierUrl?: string;
 }
@@ -90,7 +94,10 @@ export interface AssignmentSubmission {
   id: string;
   assignmentId: string;
   userId: string;
-  fileName: string;
+  fileName?: string;
+  fileUrl?: string;
+  textResponse?: string;
   submittedAt: string;
   grade?: number;
+  feedback?: string;
 }

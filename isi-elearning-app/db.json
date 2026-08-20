@@ -58,7 +58,7 @@
       "duree": "6 semaines",
       "enseignantId": "u1",
       "image": "database",
-      "published": true
+      "published": false
     },
     {
       "id": "c3",
@@ -215,7 +215,8 @@
       "titre": "Mini projet Angular",
       "consigne": "Realisez une page de tableau de bord responsive.",
       "dateLimite": "2026-09-15",
-      "status": "a faire"
+      "status": "a faire",
+      "published": true
     },
     {
       "titre": "premierSemestre",
@@ -229,5 +230,20 @@
     }
   ],
   "assignmentSubmissions": [],
-  "quizSubmissions": []
+  "quizSubmissions": [
+    {
+      "quizId": "q1",
+      "userId": "u2",
+      "score": 100,
+      "submittedAt": "2026-08-20T04:34:34.522Z",
+      "id": 1
+    },
+    {
+      "quizId": "hVrSY6r",
+      "userId": "u2",
+      "score": 100,
+      "submittedAt": "2026-08-20T04:35:40.274Z",
+      "id": 2
+    }
+  ]
 }

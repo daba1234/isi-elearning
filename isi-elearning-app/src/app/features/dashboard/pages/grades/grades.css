@@ -1,0 +1,94 @@
+.grades-page {
+  padding: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.25rem;
+}
+
+.loading-state {
+  color: #666;
+}
+
+.course-block {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.course-titre {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+}
+
+.btn-certificate {
+  padding: 0.5rem 0.9rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.progress-label {
+  margin: 0.4rem 0 1rem;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.grades-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.subsection-title {
+  font-size: 0.95rem;
+  color: #333;
+  margin: 0 0 0.5rem;
+}
+
+.grade-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.empty-hint {
+  color: #999;
+  font-size: 0.85rem;
+}

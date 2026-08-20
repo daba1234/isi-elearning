@@ -1,0 +1,41 @@
+<div class="grades-page">
+  <h1 class="page-title">Mes Notes & Progression</h1>
+
+  <div *ngIf="loading()" class="loading-state">Chargement...</div>
+
+  <div *ngFor="let row of rows()" class="course-block">
+    <div class="course-header">
+      <h2 class="course-titre">{{ row.course.titre }}</h2>
+      <button *ngIf="row.enrollment.progress === 100" class="btn-certificate" (click)="downloadCertificate(row)">
+        🎓 Télécharger l'attestation
+      </button>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="row.enrollment.progress"></div>
+    </div>
+    <p class="progress-label">Progression : {{ row.enrollment.progress }}%</p>
+
+    <div class="grades-columns">
+      <div class="grades-column">
+        <h3 class="subsection-title">Devoirs</h3>
+        <ul *ngIf="row.assignmentGrades.length > 0; else noAssignments" class="grade-list">
+          <li *ngFor="let sub of row.assignmentGrades">
+            {{ sub.assignment.titre }} : {{ sub.grade !== undefined ? sub.grade + '/20' : 'En attente de correction' }}
+          </li>
+        </ul>
+        <ng-template #noAssignments><p class="empty-hint">Aucun devoir rendu.</p></ng-template>
+      </div>
+
+      <div class="grades-column">
+        <h3 class="subsection-title">Quiz</h3>
+        <ul *ngIf="row.quizScores.length > 0; else noQuizzes" class="grade-list">
+          <li *ngFor="let sub of row.quizScores">{{ sub.quiz.titre }} : {{ sub.score }}%</li>
+        </ul>
+        <ng-template #noQuizzes><p class="empty-hint">Aucun quiz passé.</p></ng-template>
+      </div>
+    </div>
+  </div>
+
+  <p *ngIf="!loading() && rows().length === 0" class="empty-hint">Aucune donnée disponible pour le moment.</p>
+</div>

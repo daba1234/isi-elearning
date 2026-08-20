@@ -32,7 +32,21 @@ export class AssignmentService {
     );
   }
 
-  gradeSubmission(id: string, grade: number) {
-    return this.api.patch<AssignmentSubmission>(`/assignmentSubmissions/${id}`, { grade });
+  getSubmissionForUser(assignmentId: string, userId: string) {
+    return this.api.get<AssignmentSubmission>(`/assignmentSubmissions?assignmentId=${assignmentId}&userId=${userId}`);
+  }
+
+  getSubmissionsForUser(userId: string) {
+    return this.api.get<AssignmentSubmission & { assignment: Assignment }>(
+      `/assignmentSubmissions?userId=${userId}&_expand=assignment`
+    );
+  }
+
+  submitAssignment(submission: Omit<AssignmentSubmission, 'id'>) {
+    return this.api.post<AssignmentSubmission>('/assignmentSubmissions', submission);
+  }
+
+  gradeSubmission(id: string, grade: number, feedback?: string) {
+    return this.api.patch<AssignmentSubmission>(`/assignmentSubmissions/${id}`, { grade, feedback });
   }
 }

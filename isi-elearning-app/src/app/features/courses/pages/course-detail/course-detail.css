@@ -85,6 +85,18 @@
   cursor: not-allowed;
 }
 
+.btn-secondary {
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.9rem;
+  background: none;
+  border: 1px dashed #667eea;
+  color: #667eea;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
 .section-title {
   font-size: 1.2rem;
   color: #333;
@@ -117,6 +129,12 @@
 
 .content-link:hover {
   background: #e2e2ff;
+}
+
+.video-player {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 6px;
 }
 
 .lesson-list {

@@ -48,17 +48,40 @@
         <input type="text" formControlName="enonce" class="form-input" placeholder="Ex: Quel est..." />
       </div>
 
+      <div class="question-meta">
+        <div class="form-group">
+          <label class="form-label">Type de question</label>
+          <select class="form-input" [value]="question.value.type" (change)="onTypeChange(qi, $any($event.target).value)">
+            <option value="unique">Choix unique</option>
+            <option value="multiple">Choix multiple</option>
+            <option value="vrai_faux">Vrai / Faux</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Points</label>
+          <input type="number" min="1" formControlName="points" class="form-input points-input" />
+        </div>
+      </div>
+
       <div class="options-section" formArrayName="options">
-        <label class="form-label">Options (cochez la bonne réponse)</label>
+        <label class="form-label">Options (cochez la/les bonne(s) réponse(s))</label>
         <div *ngFor="let option of optionsOf(qi).controls; let oi = index" class="option-row">
-          <input type="radio" [name]="'correct-' + qi" [value]="oi" formControlName="bonneReponseIndex"
-            (change)="question.get('bonneReponseIndex')?.setValue(oi)" [checked]="question.value.bonneReponseIndex === oi" />
-          <input type="text" [formControlName]="oi" class="form-input" [placeholder]="'Option ' + (oi + 1)" />
-          <button type="button" class="btn-remove-option" (click)="removeOption(qi, oi)" [disabled]="optionsOf(qi).length === 2">
+          <input
+            [type]="question.value.type === 'multiple' ? 'checkbox' : 'radio'"
+            [name]="'correct-' + qi"
+            [checked]="isCorrect(qi, oi)"
+            (change)="toggleCorrect(qi, oi)"
+          />
+          <input type="text" [formControlName]="oi" class="form-input" [placeholder]="'Option ' + (oi + 1)"
+            [readonly]="question.value.type === 'vrai_faux'" />
+          <button *ngIf="question.value.type !== 'vrai_faux'" type="button" class="btn-remove-option"
+            (click)="removeOption(qi, oi)" [disabled]="optionsOf(qi).length === 2">
             ✕
           </button>
         </div>
-        <button type="button" class="btn-add-option" (click)="addOption(qi)">+ Ajouter une option</button>
+        <button *ngIf="question.value.type !== 'vrai_faux'" type="button" class="btn-add-option" (click)="addOption(qi)">
+          + Ajouter une option
+        </button>
       </div>
     </div>
 

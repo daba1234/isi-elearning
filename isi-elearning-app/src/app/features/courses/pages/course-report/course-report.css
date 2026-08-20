@@ -1,0 +1,86 @@
+.report-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.report-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #667eea;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.report-title {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #777;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+.students-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.students-table th,
+.students-table td {
+  text-align: left;
+  padding: 0.6rem;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.students-table th {
+  color: #777;
+  font-weight: 600;
+}
+
+.empty-hint {
+  color: #999;
+  font-size: 0.9rem;
+}

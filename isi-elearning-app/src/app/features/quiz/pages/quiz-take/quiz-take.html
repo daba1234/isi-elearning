@@ -1,0 +1,52 @@
+<div class="quiz-take">
+  <div *ngIf="loading()" class="loading-state">Chargement du quiz...</div>
+  <div *ngIf="error()" class="error-alert">{{ error() }}</div>
+
+  <div *ngIf="!loading() && quiz() as q" class="quiz-card">
+    <a routerLink="/courses" class="back-link">← Retour aux cours</a>
+
+    <div class="quiz-header">
+      <h1 class="quiz-title">{{ q.titre }}</h1>
+      <span class="timer" [class.timer-warning]="secondsLeft() < 30">
+        ⏱ {{ minutes }}:{{ seconds < 10 ? '0' + seconds : seconds }}
+      </span>
+    </div>
+
+    <div *ngIf="!submitted()" class="questions">
+      <div *ngFor="let question of q.questions; let qi = index" class="question-block">
+        <p class="question-enonce">{{ qi + 1 }}. {{ question.enonce }}</p>
+        <div *ngFor="let option of question.options; let oi = index" class="option-choice">
+          <label>
+            <input
+              [type]="question.type === 'multiple' ? 'checkbox' : 'radio'"
+              [name]="'question-' + qi"
+              [checked]="isSelected(question, oi)"
+              (change)="toggleAnswer(question, oi)"
+            />
+            {{ option }}
+          </label>
+        </div>
+      </div>
+
+      <button class="submit-button" (click)="submit()">Valider le quiz</button>
+    </div>
+
+    <div *ngIf="submitted()" class="result-box">
+      <h2 class="result-score">Score : {{ score() }}%</h2>
+
+      <div *ngFor="let question of q.questions; let qi = index" class="question-block">
+        <p class="question-enonce">{{ qi + 1 }}. {{ question.enonce }}</p>
+        <div *ngFor="let option of question.options; let oi = index"
+          class="option-result"
+          [class.option-correct]="isCorrectOption(question, oi)"
+          [class.option-wrong]="isSelected(question, oi) && !isCorrectOption(question, oi)">
+          {{ option }}
+          <span *ngIf="isCorrectOption(question, oi)"> ✔ Bonne réponse</span>
+          <span *ngIf="isSelected(question, oi) && !isCorrectOption(question, oi)"> ✘ Votre réponse</span>
+        </div>
+      </div>
+
+      <a routerLink="/mes-notes" class="content-link">Voir mes notes →</a>
+    </div>
+  </div>
+</div>

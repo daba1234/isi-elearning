@@ -67,6 +67,15 @@
   align-items: center;
 }
 
+.question-meta {
+  display: flex;
+  gap: 1rem;
+}
+
+.points-input {
+  width: 80px;
+}
+
 .question-index {
   font-weight: 600;
   color: #667eea;

@@ -42,4 +42,14 @@ export class CourseListComponent implements OnInit {
         }
       });
   }
+
+  togglePublish(course: Course, event: Event): void {
+    event.stopPropagation();
+    const updated: Course = { ...course, published: !course.published };
+    this.courseService.updateCourse(updated).subscribe({
+      next: () => {
+        this.courses.update((courses) => courses.map((c) => (c.id === course.id ? updated : c)));
+      }
+    });
+  }
 }

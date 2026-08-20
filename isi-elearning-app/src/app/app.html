@@ -1,6 +1,6 @@
 <header class="topbar">
   <a class="brand" routerLink="/dashboard"><span class="brand-mark">I</span><span>ISI <em>E-learning</em></span></a>
-  <nav *ngIf="auth.isAuthenticated()"><a routerLink="/dashboard" routerLinkActive="active">Tableau de bord</a><a *ngIf="auth.currentUser()?.role === 'enseignant'" routerLink="/teacher/dashboard" routerLinkActive="active">Espace Professeur</a><a routerLink="/courses" routerLinkActive="active">Cours</a></nav>
+  <nav *ngIf="auth.isAuthenticated()"><a routerLink="/dashboard" routerLinkActive="active">Tableau de bord</a><a *ngIf="auth.currentUser()?.role === 'enseignant'" routerLink="/teacher/dashboard" routerLinkActive="active">Espace Professeur</a><a *ngIf="auth.currentUser()?.role === 'etudiant'" routerLink="/mes-cours" routerLinkActive="active">Mes Cours</a><a *ngIf="auth.currentUser()?.role === 'etudiant'" routerLink="/mes-notes" routerLinkActive="active">Mes Notes</a><a routerLink="/courses" routerLinkActive="active">Cours</a></nav>
   <div class="account"><span *ngIf="auth.currentUser() as user">{{ user.prenom }} {{ user.nom }}</span><button *ngIf="auth.isAuthenticated()" (click)="logout()">Quitter</button><a *ngIf="!auth.isAuthenticated()" routerLink="/login">Connexion</a></div>
 </header>
 <main><router-outlet /></main>

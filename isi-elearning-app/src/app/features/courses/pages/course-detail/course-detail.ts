@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CourseService } from '../../../../core/services/course.service';
 import { AuthService } from '../../../../core/services/auth.service';
+import { AssignmentSubmitComponent } from '../../../assignments/pages/assignment-submit/assignment-submit';
+import { LessonFormComponent } from '../../../lessons/pages/lesson-form/lesson-form';
 import { Assignment, Course, Enrollment, EnrolledStudent, Lesson, Quiz } from '../../../../models/models';
 
 @Component({
   selector: 'app-course-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, AssignmentSubmitComponent, LessonFormComponent],
   templateUrl: './course-detail.html',
   styleUrl: './course-detail.css'
 })
@@ -28,6 +30,7 @@ export class CourseDetailComponent implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
   enrolling = signal(false);
+  showLessonForm = signal(false);
 
   get isTeacher(): boolean {
     const user = this.authService.currentUser();
@@ -83,6 +86,16 @@ export class CourseDetailComponent implements OnInit {
 
   private loadStudents(courseId: string): void {
     this.courseService.getEnrolledStudents(courseId).subscribe({ next: (data) => this.students.set(data) });
+  }
+
+  toggleLessonForm(): void {
+    this.showLessonForm.set(!this.showLessonForm());
+  }
+
+  onLessonCreated(): void {
+    this.showLessonForm.set(false);
+    const courseId = this.course()?.id;
+    if (courseId) this.courseService.getLessons(courseId).subscribe({ next: (data) => this.lessons.set(data) });
   }
 
   enroll(): void {

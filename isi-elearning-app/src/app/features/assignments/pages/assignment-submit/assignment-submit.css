@@ -1,0 +1,124 @@
+.assignment-submit {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.submit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assignment-titre {
+  font-weight: 600;
+  color: #333;
+}
+
+.status-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-a-rendre {
+  background: #e2e2ff;
+  color: #667eea;
+}
+
+.status-en-retard {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.status-soumis {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-note {
+  background: #d4edda;
+  color: #155724;
+}
+
+.assignment-consigne {
+  color: #444;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.deadline {
+  color: #777;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.content-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  width: fit-content;
+}
+
+.submit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-textarea {
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.form-file {
+  font-size: 0.85rem;
+}
+
+.file-hint {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.error-alert {
+  padding: 0.5rem;
+  background-color: #f8d7da;
+  color: #721c24;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.submit-button {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitted-box {
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.feedback {
+  font-style: italic;
+  color: #667eea;
+}

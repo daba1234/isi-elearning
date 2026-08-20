@@ -135,10 +135,33 @@ export class AssignmentListComponent implements OnInit {
     const grade = Number(value);
     if (Number.isNaN(grade)) return;
 
-    this.assignmentService.gradeSubmission(submissionId, grade).subscribe({
+    const submission = this.submissions().find((s) => s.id === submissionId);
+    this.assignmentService.gradeSubmission(submissionId, grade, submission?.feedback).subscribe({
       next: () => {
         this.submissions.update((subs) =>
           subs.map((s) => (s.id === submissionId ? { ...s, grade } : s))
+        );
+      }
+    });
+  }
+
+  saveFeedback(submissionId: string, feedback: string): void {
+    const submission = this.submissions().find((s) => s.id === submissionId);
+    this.assignmentService.gradeSubmission(submissionId, submission?.grade ?? 0, feedback).subscribe({
+      next: () => {
+        this.submissions.update((subs) =>
+          subs.map((s) => (s.id === submissionId ? { ...s, feedback } : s))
+        );
+      }
+    });
+  }
+
+  togglePublish(row: AssignmentRow): void {
+    const updated: Assignment = { ...row.assignment, published: !(row.assignment.published ?? true) };
+    this.assignmentService.updateAssignment(updated).subscribe({
+      next: () => {
+        this.rows.update((rows) =>
+          rows.map((r) => (r.assignment.id === row.assignment.id ? { ...r, assignment: updated } : r))
         );
       }
     });

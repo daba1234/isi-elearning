@@ -45,6 +45,7 @@
         <a *ngIf="c.videoUrl" [href]="c.videoUrl" [download]="c.videoNom" class="content-link">
           🎬 Télécharger la vidéo ({{ c.videoNom }})
         </a>
+        <video *ngIf="c.videoUrl" [src]="c.videoUrl" controls class="video-player"></video>
         <p *ngIf="!c.documentUrl && !c.videoUrl" class="empty-hint">Aucun document ou vidéo pour le moment.</p>
       </div>
 
@@ -54,33 +55,45 @@
           <span class="lesson-order">{{ lesson.ordre }}.</span>
           <span class="lesson-title">{{ lesson.titre }}</span>
           <span class="lesson-duree">{{ lesson.duree }} min</span>
+          <a *ngIf="lesson.url" [href]="lesson.url" target="_blank" class="content-link">Ouvrir</a>
         </li>
       </ul>
       <ng-template #noLessons><p class="empty-hint">Aucune leçon ajoutée.</p></ng-template>
+
+      <button *ngIf="isTeacher && !showLessonForm()" type="button" class="btn-secondary" (click)="toggleLessonForm()">
+        + Ajouter une leçon
+      </button>
+      <app-lesson-form *ngIf="isTeacher && showLessonForm()" [courseId]="c.id" [nextOrdre]="lessons().length + 1"
+        (created)="onLessonCreated()" (cancelled)="toggleLessonForm()"></app-lesson-form>
 
       <h3 class="subsection-title">Quiz</h3>
       <ul *ngIf="quizzes().length > 0; else noQuizzes" class="lesson-list">
         <li *ngFor="let quiz of quizzes()" class="lesson-item">
           <span class="lesson-title">{{ quiz.titre }}</span>
           <span class="lesson-duree">{{ quiz.questions.length }} questions · {{ quiz.duree }} min</span>
+          <a *ngIf="!isTeacher" [routerLink]="['/quiz', quiz.id]" class="content-link">Passer le quiz →</a>
         </li>
       </ul>
       <ng-template #noQuizzes><p class="empty-hint">Aucun quiz publié.</p></ng-template>
 
       <h3 class="subsection-title">Devoirs</h3>
-      <ul *ngIf="assignments().length > 0; else noAssignments" class="lesson-list">
+      <ng-container *ngIf="!isTeacher">
+        <app-assignment-submit *ngFor="let assignment of assignments()" [assignment]="assignment"></app-assignment-submit>
+        <p *ngIf="assignments().length === 0" class="empty-hint">Aucun devoir publié.</p>
+      </ng-container>
+      <ul *ngIf="isTeacher" class="lesson-list">
         <li *ngFor="let assignment of assignments()" class="lesson-item">
           <span class="lesson-title">{{ assignment.titre }}</span>
           <span class="lesson-duree">Échéance : {{ assignment.dateLimite }}</span>
         </li>
       </ul>
-      <ng-template #noAssignments><p class="empty-hint">Aucun devoir publié.</p></ng-template>
     </div>
 
     <!-- Liste des étudiants inscrits (professeur uniquement) -->
     <div *ngIf="isTeacher" class="students-section">
       <div class="students-header">
         <h2 class="section-title">Liste des étudiants</h2>
+        <a [routerLink]="['/courses', c.id, 'rapport']" class="content-link">📊 Rapport de classe</a>
         <button class="btn-export" [disabled]="students().length === 0" (click)="exportStudentsCsv()">
           Exporter en CSV
         </button>

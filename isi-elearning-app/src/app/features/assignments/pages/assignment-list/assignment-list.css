@@ -99,6 +99,30 @@
   border-radius: 4px;
 }
 
+.feedback-input {
+  width: 140px;
+  padding: 0.35rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn-publish {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: #f0f0f0;
+  color: #777;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-publish.published {
+  background: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
 .empty-hint {
   color: #999;
   font-size: 0.9rem;

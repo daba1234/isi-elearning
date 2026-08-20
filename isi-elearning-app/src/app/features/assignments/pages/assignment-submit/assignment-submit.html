@@ -1,0 +1,28 @@
+<div class="assignment-submit">
+  <div class="submit-header">
+    <span class="assignment-titre">{{ assignment.titre }}</span>
+    <span class="status-badge" [class]="'status-' + status">{{ statusLabel }}</span>
+  </div>
+
+  <p class="assignment-consigne">{{ assignment.consigne }}</p>
+  <a *ngIf="assignment.fichierUrl" [href]="assignment.fichierUrl" [download]="assignment.fichierNom" class="content-link">
+    📎 {{ assignment.fichierNom }}
+  </a>
+  <p class="deadline">Échéance : {{ assignment.dateLimite }}</p>
+
+  <div *ngIf="!checking() && !submission()" class="submit-form" [formGroup]="form">
+    <textarea formControlName="textResponse" class="form-textarea" rows="3" placeholder="Votre réponse (optionnel si fichier joint)"></textarea>
+    <input type="file" (change)="onFileSelected($event)" class="form-file" />
+    <span *ngIf="file()" class="file-hint">Fichier sélectionné : {{ file()?.name }}</span>
+    <div *ngIf="error()" class="error-alert">{{ error() }}</div>
+    <button type="button" class="submit-button" [disabled]="loading()" (click)="submit()">
+      {{ loading() ? 'Envoi...' : 'Rendre le devoir' }}
+    </button>
+  </div>
+
+  <div *ngIf="submission() as s" class="submitted-box">
+    <p *ngIf="s.textResponse">Votre réponse : {{ s.textResponse }}</p>
+    <a *ngIf="s.fileUrl" [href]="s.fileUrl" [download]="s.fileName" class="content-link">📄 {{ s.fileName }}</a>
+    <p *ngIf="s.feedback" class="feedback">Commentaire du professeur : {{ s.feedback }}</p>
+  </div>
+</div>

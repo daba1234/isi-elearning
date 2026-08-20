@@ -29,4 +29,16 @@ export class QuizService {
   getSubmissions(quizId: string) {
     return this.api.get<QuizSubmission>(`/quizSubmissions?quizId=${quizId}`);
   }
+
+  getAttemptForUser(quizId: string, userId: string) {
+    return this.api.get<QuizSubmission>(`/quizSubmissions?quizId=${quizId}&userId=${userId}`);
+  }
+
+  getSubmissionsForUser(userId: string) {
+    return this.api.get<QuizSubmission & { quiz: Quiz }>(`/quizSubmissions?userId=${userId}&_expand=quiz`);
+  }
+
+  submitAttempt(attempt: Omit<QuizSubmission, 'id'>) {
+    return this.api.post<QuizSubmission>('/quizSubmissions', attempt);
+  }
 }

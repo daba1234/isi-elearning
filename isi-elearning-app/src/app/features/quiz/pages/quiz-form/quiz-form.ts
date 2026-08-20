@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { QuizService } from '../../services/quiz.service';
 import { Course, QuizQuestion } from '../../../../models/models';
 
@@ -37,14 +37,20 @@ export class QuizFormComponent {
     return this.questions.at(index).get('options') as FormArray;
   }
 
+  correctIndicesOf(index: number): FormControl<number[]> {
+    return this.questions.at(index).get('correctIndices') as FormControl<number[]>;
+  }
+
   private newQuestion(): FormGroup {
     return this.fb.group({
       enonce: ['', Validators.required],
+      type: ['unique' as QuizQuestion['type']],
       options: this.fb.array([
         this.fb.control('', Validators.required),
         this.fb.control('', Validators.required)
       ]),
-      bonneReponseIndex: [0, Validators.required]
+      correctIndices: this.fb.control<number[]>([0]),
+      points: [1, [Validators.required, Validators.min(1)]]
     });
   }
 
@@ -65,6 +71,38 @@ export class QuizFormComponent {
     if (options.length > 2) options.removeAt(optionIndex);
   }
 
+  onTypeChange(questionIndex: number, type: QuizQuestion['type']): void {
+    const question = this.questions.at(questionIndex);
+    question.get('type')?.setValue(type);
+
+    if (type === 'vrai_faux') {
+      const options = this.optionsOf(questionIndex);
+      options.clear();
+      options.push(this.fb.control('Vrai', Validators.required));
+      options.push(this.fb.control('Faux', Validators.required));
+    }
+
+    this.correctIndicesOf(questionIndex).setValue([0]);
+  }
+
+  toggleCorrect(questionIndex: number, optionIndex: number): void {
+    const control = this.correctIndicesOf(questionIndex);
+    const type = this.questions.at(questionIndex).value.type;
+
+    if (type === 'multiple') {
+      const current = control.value ?? [];
+      control.setValue(
+        current.includes(optionIndex) ? current.filter((i) => i !== optionIndex) : [...current, optionIndex]
+      );
+    } else {
+      control.setValue([optionIndex]);
+    }
+  }
+
+  isCorrect(questionIndex: number, optionIndex: number): boolean {
+    return (this.correctIndicesOf(questionIndex).value ?? []).includes(optionIndex);
+  }
+
   submit(): void {
     this.error.set(null);
 
@@ -76,8 +114,10 @@ export class QuizFormComponent {
     const questions: QuizQuestion[] = this.questions.controls.map((q, i) => ({
       id: `q-${Date.now()}-${i}`,
       enonce: q.value.enonce,
+      type: q.value.type,
       options: q.value.options,
-      bonneReponseIndex: Number(q.value.bonneReponseIndex)
+      bonnesReponses: q.value.correctIndices,
+      points: Number(q.value.points)
     }));
 
     this.loading.set(true);
@@ -103,3 +143,4 @@ export class QuizFormComponent {
     this.cancelled.emit();
   }
 }
+

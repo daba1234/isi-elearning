@@ -1,0 +1,49 @@
+<form class="lesson-form" [formGroup]="form" (ngSubmit)="submit()">
+  <h3 class="form-title">Ajouter une leçon</h3>
+
+  <div class="form-group">
+    <label class="form-label">Titre *</label>
+    <input type="text" formControlName="titre" class="form-input" placeholder="Ex: Introduction" />
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Description</label>
+    <textarea formControlName="description" class="form-textarea" rows="3"></textarea>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Format *</label>
+      <select formControlName="format" class="form-input">
+        <option value="texte">Texte</option>
+        <option value="pdf">PDF</option>
+        <option value="video">Vidéo</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Durée (min) *</label>
+      <input type="number" min="1" formControlName="duree" class="form-input" />
+    </div>
+  </div>
+
+  <div class="form-group" *ngIf="form.value.format !== 'texte'">
+    <label class="form-label">Fichier ({{ form.value.format === 'pdf' ? 'PDF' : 'MP4/MOV' }})</label>
+    <input type="file" [accept]="form.value.format === 'pdf' ? 'application/pdf' : 'video/mp4,video/quicktime'"
+      (change)="onFileSelected($event)" class="form-file" />
+    <span *ngIf="file()" class="file-hint">Fichier sélectionné : {{ file()?.name }}</span>
+  </div>
+
+  <div class="form-group" *ngIf="form.value.format === 'video'">
+    <label class="form-label">Ou lien externe (YouTube, Vimeo...)</label>
+    <input type="url" formControlName="lienExterne" class="form-input" placeholder="https://..." />
+  </div>
+
+  <div *ngIf="error()" class="error-alert">{{ error() }}</div>
+
+  <div class="form-actions">
+    <button type="button" class="btn-cancel" (click)="cancel()">Annuler</button>
+    <button type="submit" class="submit-button" [disabled]="loading()">
+      {{ loading() ? 'Création...' : 'Ajouter la leçon' }}
+    </button>
+  </div>
+</form>

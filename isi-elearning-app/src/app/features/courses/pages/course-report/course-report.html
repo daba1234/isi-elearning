@@ -1,0 +1,48 @@
+<div class="report-container">
+  <div *ngIf="loading()" class="loading-state">Chargement du rapport...</div>
+
+  <div *ngIf="!loading() && course() as c" class="report-card">
+    <a [routerLink]="['/courses', c.id]" class="back-link">← Retour au cours</a>
+    <h1 class="report-title">Rapport de classe — {{ c.titre }}</h1>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-value">{{ students().length }}</span>
+        <span class="stat-label">Étudiants inscrits</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ completionRate() }}%</span>
+        <span class="stat-label">Taux de complétion moyen</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ averageAssignmentGrade() !== null ? averageAssignmentGrade() + '/20' : '—' }}</span>
+        <span class="stat-label">Moyenne des devoirs</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ quizSuccessRate() !== null ? quizSuccessRate() + '%' : '—' }}</span>
+        <span class="stat-label">Taux de réussite aux quiz</span>
+      </div>
+    </div>
+
+    <h2 class="section-title">Étudiants inscrits</h2>
+    <table *ngIf="students().length > 0" class="students-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Progression</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students()">
+          <td>{{ student.user.nom }}</td>
+          <td>{{ student.user.prenom }}</td>
+          <td>{{ student.user.email }}</td>
+          <td>{{ student.progress }}%</td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="students().length === 0" class="empty-hint">Aucun étudiant inscrit pour le moment.</p>
+  </div>
+</div>

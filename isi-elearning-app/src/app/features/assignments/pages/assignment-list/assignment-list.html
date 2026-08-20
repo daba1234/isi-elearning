@@ -24,6 +24,7 @@
         <th>Date limite</th>
         <th>Rendus / Effectif</th>
         <th>Statut</th>
+        <th>Publication</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -35,6 +36,11 @@
           <td>{{ row.assignment.dateLimite }}</td>
           <td>{{ row.rendus }} / {{ row.effectif }}</td>
           <td>{{ row.assignment.status }}</td>
+          <td>
+            <button class="btn-publish" [class.published]="row.assignment.published ?? true" (click)="togglePublish(row)">
+              {{ (row.assignment.published ?? true) ? 'Publié' : 'Brouillon' }}
+            </button>
+          </td>
           <td class="actions">
             <button class="btn-link" (click)="toggleDetails(row.assignment.id)">
               {{ expandedAssignmentId() === row.assignment.id ? 'Fermer' : 'Voir / Corriger' }}
@@ -42,7 +48,7 @@
           </td>
         </tr>
         <tr *ngIf="expandedAssignmentId() === row.assignment.id" class="details-row">
-          <td colspan="6">
+          <td colspan="7">
             <div class="details-panel">
               <p class="details-consigne"><strong>Consigne :</strong> {{ row.assignment.consigne }}</p>
               <a *ngIf="row.assignment.fichierUrl" [href]="row.assignment.fichierUrl" [download]="row.assignment.fichierNom" class="content-link">
@@ -56,19 +62,29 @@
                   <tr>
                     <th>Étudiant</th>
                     <th>Fichier rendu</th>
+                    <th>Réponse texte</th>
                     <th>Date de rendu</th>
                     <th>Note</th>
+                    <th>Commentaire</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let sub of submissions()">
                     <td>{{ sub.user.prenom }} {{ sub.user.nom }}</td>
-                    <td>{{ sub.fileName }}</td>
+                    <td>
+                      <a *ngIf="sub.fileUrl" [href]="sub.fileUrl" [download]="sub.fileName" class="content-link">{{ sub.fileName }}</a>
+                    </td>
+                    <td>{{ sub.textResponse }}</td>
                     <td>{{ sub.submittedAt }}</td>
                     <td>
                       <input type="number" min="0" max="20" class="grade-input"
                         [value]="sub.grade ?? ''"
                         (change)="grade(sub.id, $any($event.target).value)" />
+                    </td>
+                    <td>
+                      <input type="text" class="feedback-input" placeholder="Commentaire"
+                        [value]="sub.feedback ?? ''"
+                        (change)="saveFeedback(sub.id, $any($event.target).value)" />
                     </td>
                   </tr>
                 </tbody>

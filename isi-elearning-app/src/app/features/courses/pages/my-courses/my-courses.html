@@ -1,0 +1,25 @@
+<div class="my-courses">
+  <h1 class="page-title">Mes Cours</h1>
+
+  <div *ngIf="loading()" class="loading-state">Chargement...</div>
+  <div *ngIf="error()" class="error-alert">{{ error() }}</div>
+
+  <div *ngIf="!loading() && rows().length > 0" class="courses-grid">
+    <div *ngFor="let row of rows()" class="course-card" [routerLink]="['/courses', row.course.id]">
+      <div class="course-header">
+        <h2 class="course-title">{{ row.course.titre }}</h2>
+        <span class="course-category">{{ row.course.categorie }}</span>
+      </div>
+      <p class="course-description">{{ row.course.description }}</p>
+
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="row.enrollment.progress"></div>
+      </div>
+      <p class="progress-label">{{ row.enrollment.progress }}% · {{ row.enrollment.status }}</p>
+    </div>
+  </div>
+
+  <p *ngIf="!loading() && rows().length === 0" class="empty-hint">
+    Vous n'êtes inscrit à aucun cours pour le moment. <a routerLink="/courses">Parcourir le catalogue</a>
+  </p>
+</div>
