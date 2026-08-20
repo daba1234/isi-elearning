@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Course, Enrollment, Lesson, Quiz, Assignment } from '../../models/models';
+import { Course, EnrolledStudent, Enrollment, Lesson, Quiz, Assignment } from '../../models/models';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
@@ -8,6 +8,18 @@ export class CourseService {
 
   getCourses(teacherId?: string) {
     return this.api.get<Course>(teacherId ? `/courses?enseignantId=${teacherId}` : '/courses');
+  }
+
+  getCourse(courseId: string) {
+    return this.api.getOne<Course>(`/courses/${courseId}`);
+  }
+
+  getEnrollment(userId: string, courseId: string) {
+    return this.api.get<Enrollment>(`/enrollments?userId=${userId}&courseId=${courseId}`);
+  }
+
+  getEnrolledStudents(courseId: string) {
+    return this.api.get<EnrolledStudent>(`/enrollments?courseId=${courseId}&_expand=user`);
   }
 
   getLessons(courseId: string) {

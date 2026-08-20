@@ -13,6 +13,10 @@ export class ApiService {
     return from(this.client.get<T[]>(resource)).pipe(map(response => response.data));
   }
 
+  getOne<T>(resource: string) {
+    return from(this.client.get<T>(resource)).pipe(map(response => response.data));
+  }
+
   post<T>(resource: string, body: unknown) {
     return from(this.client.post<T>(resource, body)).pipe(map(response => response.data));
   }

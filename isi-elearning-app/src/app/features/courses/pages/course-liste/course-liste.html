@@ -1,7 +1,7 @@
 <div class="courses-container">
   <div class="courses-header">
     <h1 class="courses-title">Mes Cours</h1>
-    <button class="btn-new-course" routerLink="/courses/create">
+    <button *ngIf="auth.currentUser()?.role === 'enseignant'" class="btn-new-course" routerLink="/courses/create">
       + Nouveau Cours
     </button>
   </div>
@@ -19,7 +19,7 @@
 
   <!-- Liste des cours -->
   <div *ngIf="!loading() && courses().length > 0" class="courses-grid">
-    <div *ngFor="let course of courses()" class="course-card" routerLink="['/courses', course.id]">
+    <div *ngFor="let course of courses()" class="course-card" [routerLink]="['/courses', course.id]">
       <div class="course-header">
         <h2 class="course-title">{{ course.titre }}</h2>
         <span class="course-category">{{ course.categorie }}</span>
@@ -28,7 +28,7 @@
       <p class="course-description">{{ course.description }}</p>
       
       <div class="course-footer">
-        <button class="btn-view" routerLink="['/courses', course.id]">
+        <button class="btn-view" [routerLink]="['/courses', course.id]">
           Voir les détails →
         </button>
       </div>
@@ -37,8 +37,8 @@
 
   <!-- Aucun cours -->
   <div *ngIf="!loading() && courses().length === 0" class="empty-state">
-    <p>Aucun cours créé pour le moment</p>
-    <button class="btn-new-course" routerLink="/courses/create">
+    <p>{{ auth.currentUser()?.role === 'enseignant' ? 'Aucun cours créé pour le moment' : 'Aucun cours disponible pour le moment' }}</p>
+    <button *ngIf="auth.currentUser()?.role === 'enseignant'" class="btn-new-course" routerLink="/courses/create">
       Créer votre premier cours
     </button>
   </div>

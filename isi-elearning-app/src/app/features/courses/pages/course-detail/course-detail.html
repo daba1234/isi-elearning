@@ -1,0 +1,108 @@
+<div class="detail-container">
+
+  <!-- État de chargement -->
+  <div *ngIf="loading()" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement du cours...</p>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="error()" class="error-alert">
+    {{ error() }}
+  </div>
+
+  <div *ngIf="!loading() && course() as c" class="detail-card">
+    <a routerLink="/courses" class="back-link">← Retour aux cours</a>
+
+    <div class="detail-header">
+      <h1 class="detail-title">{{ c.titre }}</h1>
+      <span class="detail-category">{{ c.categorie }}</span>
+    </div>
+
+    <p class="detail-meta">Niveau : {{ c.niveau }} · Durée : {{ c.duree }} · Ajouté le {{ c.dateAjout }}</p>
+    <p class="detail-description">{{ c.description }}</p>
+
+    <!-- Inscription étudiant -->
+    <div *ngIf="!isTeacher && !enrollment()" class="enroll-box">
+      <p>Inscrivez-vous pour accéder aux contenus, quiz et devoirs de ce cours.</p>
+      <button class="btn-primary" [disabled]="enrolling()" (click)="enroll()">
+        {{ enrolling() ? 'Inscription...' : "S'inscrire au cours" }}
+      </button>
+    </div>
+
+    <div *ngIf="!isTeacher && enrollment() as e" class="progress-box">
+      <p>Votre progression : {{ e.progress }}% ({{ e.status }})</p>
+    </div>
+
+    <!-- Contenus (visibles pour le prof propriétaire ou l'étudiant inscrit) -->
+    <div *ngIf="canSeeContent" class="content-section">
+      <h2 class="section-title">Contenus du cours</h2>
+
+      <div class="content-links">
+        <a *ngIf="c.documentUrl" [href]="c.documentUrl" [download]="c.documentNom" class="content-link">
+          📄 Télécharger le document ({{ c.documentNom }})
+        </a>
+        <a *ngIf="c.videoUrl" [href]="c.videoUrl" [download]="c.videoNom" class="content-link">
+          🎬 Télécharger la vidéo ({{ c.videoNom }})
+        </a>
+        <p *ngIf="!c.documentUrl && !c.videoUrl" class="empty-hint">Aucun document ou vidéo pour le moment.</p>
+      </div>
+
+      <h3 class="subsection-title">Leçons</h3>
+      <ul *ngIf="lessons().length > 0; else noLessons" class="lesson-list">
+        <li *ngFor="let lesson of lessons()" class="lesson-item">
+          <span class="lesson-order">{{ lesson.ordre }}.</span>
+          <span class="lesson-title">{{ lesson.titre }}</span>
+          <span class="lesson-duree">{{ lesson.duree }} min</span>
+        </li>
+      </ul>
+      <ng-template #noLessons><p class="empty-hint">Aucune leçon ajoutée.</p></ng-template>
+
+      <h3 class="subsection-title">Quiz</h3>
+      <ul *ngIf="quizzes().length > 0; else noQuizzes" class="lesson-list">
+        <li *ngFor="let quiz of quizzes()" class="lesson-item">
+          <span class="lesson-title">{{ quiz.titre }}</span>
+          <span class="lesson-duree">{{ quiz.questions }} questions · {{ quiz.duree }} min</span>
+        </li>
+      </ul>
+      <ng-template #noQuizzes><p class="empty-hint">Aucun quiz publié.</p></ng-template>
+
+      <h3 class="subsection-title">Devoirs</h3>
+      <ul *ngIf="assignments().length > 0; else noAssignments" class="lesson-list">
+        <li *ngFor="let assignment of assignments()" class="lesson-item">
+          <span class="lesson-title">{{ assignment.titre }}</span>
+          <span class="lesson-duree">Échéance : {{ assignment.dateLimite }}</span>
+        </li>
+      </ul>
+      <ng-template #noAssignments><p class="empty-hint">Aucun devoir publié.</p></ng-template>
+    </div>
+
+    <!-- Liste des étudiants inscrits (professeur uniquement) -->
+    <div *ngIf="isTeacher" class="students-section">
+      <div class="students-header">
+        <h2 class="section-title">Liste des étudiants</h2>
+        <button class="btn-export" [disabled]="students().length === 0" (click)="exportStudentsCsv()">
+          Exporter en CSV
+        </button>
+      </div>
+
+      <table *ngIf="students().length > 0; else noStudents" class="students-table">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of students()">
+            <td>{{ student.user.nom }}</td>
+            <td>{{ student.user.prenom }}</td>
+            <td>{{ student.user.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noStudents><p class="empty-hint">Aucun étudiant inscrit pour le moment.</p></ng-template>
+    </div>
+  </div>
+</div>

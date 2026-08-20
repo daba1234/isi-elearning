@@ -131,6 +131,13 @@
       "courseId": "c2",
       "progress": 100,
       "status": "termine"
+    },
+    {
+      "userId": "u2",
+      "courseId": "c3",
+      "progress": 0,
+      "status": "en cours",
+      "id": "3KMPWfN"
     }
   ],
   "quizzes": [

@@ -47,6 +47,10 @@ export interface Enrollment {
   status: string;
 }
 
+export interface EnrolledStudent extends Enrollment {
+  user: User;
+}
+
 export interface Quiz {
   id: string;
   courseId: string;
